@@ -1,26 +1,35 @@
 import React, { useState } from 'react';
 
-import GitList from './components/gitList';
+import GitDetails from './components/gitDetails';
 import GitSearch from './components/gitSearch';
+import GitRepos from './components/gitRepos';
 import './App.css';
 
 const searchQueryURI = 'https://api.github.com';
 
 function App() {
   const [data, setData] = useState('');
+  const [repos, setRepos] = useState('');
   const [user, setUser] = useState('');
 
-    const handleSearchGit = (gitUser) => {
-      setUser(gitUser);
-      const searchQuery = searchQueryURI + '/users/' + user;
-      console.log(user);
+  const handleSearchGit = (gitUser) => {
+    setUser(gitUser);
+    const searchGitUser = searchQueryURI + '/users/' + user;
+    const searchGitRepos = data.repos_url;
 
-      fetch(searchQuery)
-      .then(result => result.json())
-      .then(response => setData(response))
-      .catch(err => console.log(err));
-    }
-    console.log(data);
+    fetch(searchGitUser)
+    .then(result => result.json())
+    .then(response => setData(response))
+    .catch(err => console.log(err));
+
+    fetch(searchGitRepos)
+    .then(result => result.json())
+    .then(response => setRepos(response))
+    .catch(err => console.log(err));
+  }
+
+  console.log(data);
+  console.log(repos);
 
     return(
       <div className='app'>
@@ -28,11 +37,8 @@ function App() {
         <GitSearch searchGit={handleSearchGit}/>
         {(data.message === '' || user !== '') ? (
         <div>
-          <GitList gitovi={data} />
-          {(data.avatar_url) ? (<img src={data.avatar_url} alt={data.avatar_url} className='avatar'  />) : ('')}
-          <h3>{data.name}</h3>
-          <h4>BIO: {data.bio}</h4>
-          <h5>LOCATION: {data.location}</h5>
+          <GitDetails gitovi={data} />
+          <GitRepos user={user} reposi={repos} />
         </div>
         ) : <h3>Nije pronađen Git Hub User</h3>}
         
