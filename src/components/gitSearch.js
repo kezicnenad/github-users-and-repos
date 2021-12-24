@@ -1,21 +1,22 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 
-function GitSearch({searchGit}) {
-    const [user, setUser] = useState('')
+function GitSearch({search}) {
+    const [user, setUser] = useState('');
 
     const handleUser = (event) => {
         setUser(event.target.value);
-        searchGit(user);
     }
 
-    const handleReset = () => {
+    const handleUserAccept = () => {
+        search(user);
         setUser('');
     }
 
     return(
-        <div className='app'>
-            <h3>Git Search</h3>
-            <input type='text' onClick={handleReset} value={user} onChange={handleUser} placeholder='Find Git User...' />
+        <div className='search'>
+            <h2 className='naslov'>GitHub User Search</h2>
+            <input type='text' value={user} onChange={handleUser} />
+            <button onClick={handleUserAccept}>Search</button>
         </div>
     );
 }

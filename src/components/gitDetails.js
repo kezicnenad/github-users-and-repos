@@ -1,15 +1,22 @@
 import React from 'react';
+import GitRepos from './gitRepos';
 
-function GitDetails({gitovi}){
-    return(
-        <div className='app'>
-            <h3>Git User List</h3>
-            {(gitovi.avatar_url) ? (<img src={gitovi.avatar_url} alt={gitovi.avatar_url} className='avatar'  />) : ('')}
-            <h3>{gitovi.name}</h3>
-            <h4>BIO: {gitovi.bio}</h4>
-            <h5>LOCATION: {gitovi.location}</h5>
-        </div>
-    );
+class GitDetails extends React.Component {
+    render() {
+        const git = this.props.git;
+        const reposi = this.props.reposi;
+
+        return(
+            <div className='details'>
+                <h2 className='naslov'>GitHub User Details</h2>
+                <img alt={git.name} src={git.avatar_url} className='avatar' />
+                <h3>{git.name}</h3>
+                <h5>{git.location}</h5>
+                <h5>{git.bio}</h5>
+                {(this.props.reposi !== '') ? (<GitRepos reposi={this.props.reposi} />) : (<h5>Nema reposa</h5>)}
+            </div>
+        );
+    }
 }
 
 export default GitDetails;
